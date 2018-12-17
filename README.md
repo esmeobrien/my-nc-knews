@@ -16,21 +16,20 @@ For this sprint ensure you have the eslint extension installed in VS-Code as it 
 
 Data has been provided for both testing and development environments so you will need to write a seed function to seed your database. You should think about how you will write your seed file to use either test data or dev data depending on the environment that you're running in.
 
-
 1. You should have separate tables for topics, articles, users and comments, and you will need to think carefully about the order in which you seed your data.
 
-- Each topic should have:
+- Each topic should have: DONE
 
   - `slug` field which is a unique string that acts as the table's primary key
   - `description` field which is a string giving a brief description of a given topic
 
-- Each user should have:
+- Each user should have: DONE
 
   - `username` which is the primary key & unique
   - `avatar_url`
   - `name`
 
-- Each article should have:
+- Each article should have: DONE
   - `article_id` which is the primary key
   - `title`
   - `body`
@@ -39,7 +38,7 @@ Data has been provided for both testing and development environments so you will
   - `username` field that references a user's primary key.
   - `created_at` defaults to the current date
 
-* Each comment should have:
+* Each comment should have: DONE
   - `comment_id` which is the primary key
   - `username` field that references a user's primary key
   - `article_id` field that references an article's primary key
@@ -48,7 +47,6 @@ Data has been provided for both testing and development environments so you will
   - `body`
 
 - NOTE: psql expects Date types to be in a date format - not a timestamp! However, you can easily turn a timestamp into a date using js...
-
 
 ### Step 2 - Building and Testing
 
@@ -100,10 +98,9 @@ Queries
   - `p`, stands for page which specifies the page at which to start (calculated using limit)
   - `sort_ascending`, when "true" returns the results sorted in ascending order (defaults to descending)
 
-
 ## IMPORTANT:
-* Both `comments` and `articles` data in the test-data are given ordered in descending order of time : this will be useful to you when it comes to writing your tests!
 
+- Both `comments` and `articles` data in the test-data are given ordered in descending order of time : this will be useful to you when it comes to writing your tests!
 
 ```http
 POST /api/topics/:topic/articles
@@ -134,7 +131,6 @@ Queries
   - `sort_by`, which sorts the articles by any valid column (defaults to date)
   - `p`, stands for page which specifies the page at which to start (calculated using limit)
   - `sort_ascending`, when "true" returns the results sorted in ascending order (defaults to descending)
-
 
 ```http
 GET /api/articles/:article_id
