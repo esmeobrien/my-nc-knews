@@ -46,12 +46,12 @@ Data has been provided for both testing and development environments so you will
   - `created_at` defaults to the current date
   - `body`
 
-- NOTE: psql expects Date types to be in a date format - not a timestamp! However, you can easily turn a timestamp into a date using js...
+- NOTE: psql expects Date types to be in a date format - not a timestamp! However, you can easily turn a timestamp into a date using js... DONE
 
 ### Step 2 - Building and Testing
 
-1.  Build your Express app
-2.  Mount an API Router onto your app
+1.  Build your Express app DONE and listen.js DONE
+2.  Mount an API Router onto your app DONE 
 3.  Define the routes described below
 4.  Define controller functions for each of your routes.
 5.  Use proper project configuration from the offset, being sure to treat development and test differently.
@@ -64,7 +64,7 @@ Data has been provided for both testing and development environments so you will
 Your server should have the following end-points:
 
 ```http
-GET /api/topics
+GET /api/topics (TOPICS ROUTER)
 ```
 
 - responds with an array of topic objects - each object should have a `slug` and `description` property.
