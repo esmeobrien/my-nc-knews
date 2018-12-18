@@ -8,11 +8,17 @@
     "lint": "eslint ./",
     "pre-commit": "npm t",
     "posttest": "npm run lint",
-    "create:config": "knex init",
-    "migrate:make": "knex migrate:make",
     "lint:fix": "eslint --fix ./",
-    "migrate:latest": "knex migrate:latest",
-    "migrate:rollback": "knex migrate:rollback"
+    "create:config": "knex init",
+    "create:db": "psql -f ./db/nc_news_test.sql",
+    "migrate:make": "knex migrate:make",
+    "migrate:latest": "knex migrate:latest --env test",
+    "migrate:rollback": "knex migrate:rollback --env test",
+    "create:seed": "knex seed:make",
+    "seed:run": "npm run migrate:rollback && npm run migrate:latest && NODE_ENV=test knex seed:run --env test"
+  },
+  "repository": {
+    "type": "git"
   },
   "repository": {
     "type": "git",
