@@ -8,3 +8,13 @@ exports.getTopics = (req, res, next) => { // first get request which selects all
     })
     .catch(next);
 };
+
+exports.postTopics = (req, res, next) => {
+  connection('topics')
+    .returning('*')
+    .insert(req.body)
+    .then(([topic]) => {
+      res.status(201).send({ topic });
+    })
+    .catch(next);
+};

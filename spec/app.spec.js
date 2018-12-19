@@ -19,5 +19,17 @@ describe('/api', () => {
         expect(res.body).to.be.an('array');
         expect(res.body[0]).to.have.all.keys('slug', 'description');
       }));
+
+    it('POST - returns status 201 and allows a post of an object which contains a slug and description property, the slug must be unique and responds with the posted topic object', () => {
+      const topic = { description: 'Code is love, code is life', slug: 'coding' };
+      return request
+        .post('/api/topics')
+        .expect(201)
+        .send(topic)
+        .then((res) => {
+          expect(res.body.topic.description).to.eql(topic.description);
+          expect(res.body.topic.slug).to.eql(topic.slug);
+        });
+    });
   });
 });
