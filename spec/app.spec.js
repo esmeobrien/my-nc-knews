@@ -31,5 +31,13 @@ describe('/api', () => {
           expect(res.body.topic.slug).to.eql(topic.slug);
         });
     });
+    describe('/:topic/articles', () => {
+      it('GET - returns status 200 and responds with an array of articles for a given topic with correct keys', () => request
+        .get('/api/topics/cats/articles').expect(200)
+        .then(({ body }) => {
+          expect(body.articles).to.have.length(1);
+          expect(body.articles[0]).to.have.all.keys('author', 'title', 'article_id', 'votes', 'comment_count', 'created_at', 'topic');
+        }));
+    });
   });
 });

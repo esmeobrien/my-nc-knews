@@ -64,20 +64,20 @@ Data has been provided for both testing and development environments so you will
 Your server should have the following end-points:
 
 ```http
-GET /api/topics (TOPICS ROUTER)
+GET /api/topics (TOPICS ROUTER) DONE
 ```
 
 - responds with an array of topic objects - each object should have a `slug` and `description` property.
 
 ```http
-POST /api/topics
+POST /api/topics (TOPICS ROUTER) DONE
 ```
 
 - accepts an object containing `slug` and `description` property, the `slug` must be unique
 - responds with the posted topic object
 
 ```http
-GET /api/topics/:topic/articles
+GET /api/topics/:topic/articles (TOPICS ROUTER) DONE
 ```
 
 - responds with an array of article objects for a given topic
