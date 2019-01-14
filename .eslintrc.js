@@ -17,6 +17,7 @@ module.exports = {
         "prefer-promise-reject-errors": 0,
         "import/order": 0,
         "max-len":0,
+        "no-restricted-globals":0,
     }
 
 };

@@ -93,10 +93,10 @@ GET /api/topics/:topic/articles (TOPICS ROUTER) DONE
 Queries
 
 - This route should accept the following queries:
-  - `limit`, which limits the number of responses (defaults to 10)
-  - `sort_by`, which sorts the articles by any valid column (defaults to date)
-  - `p`, stands for page which specifies the page at which to start (calculated using limit)
-  - `sort_ascending`, when "true" returns the results sorted in ascending order (defaults to descending)
+  - `limit`, which limits the number of responses (defaults to 10) DONE 
+  - `sort_by`, which sorts the articles by any valid column (defaults to date) DONE
+  - `p`, stands for page which specifies the page at which to start (calculated using limit) DONE
+  - `sort_ascending`, when "true" returns the results sorted in ascending order (defaults to descending) DONE
 
 ## IMPORTANT:
 
@@ -146,6 +146,8 @@ GET /api/articles/:article_id
   - `comment_count` which is the count of all the comments with this article_id. A particular SQL clause is useful for this job!
   - `created_at`
   - `topic`
+
+
 
 ```http
 PATCH /api/articles/:article_id

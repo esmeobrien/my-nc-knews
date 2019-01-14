@@ -1,3 +1,5 @@
+// connects to database and gives me functionality to interact with our database
+
 const knex = require('knex');
 
 const ENV = process.env.NODE_ENV || 'development';
