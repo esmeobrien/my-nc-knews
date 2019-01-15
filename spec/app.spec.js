@@ -283,7 +283,5 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.msg).to.equal('invalid input syntax for type integer');
       }));
-
-    // patch request
   });
 });

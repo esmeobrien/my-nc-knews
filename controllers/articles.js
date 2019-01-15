@@ -63,3 +63,23 @@ exports.fetchArticleById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.updateArticleVotes = (req, res, next) => {
+// accepts an object in the form `{ inc_votes: newVote }`
+// indicate how much the `votes` property in the database should be updated by
+// E.g `{ inc_votes : 1 }` would increment the current article's vote property by 1
+// `{ inc_votes : -100 }` would decrement the current article's vote property by 100
+
+  const { articles_id } = req.params;
+  const { incremented_votes } = req.body;
+
+  connection('articles')
+    .returning('*')
+    .increment('votes', incremented_votes)
+    .where('articles_id', '=', articles_id)
+    .then(([article]) => {
+      if (article.length === 0) return Promise.reject({ status: 404, msg: 'page not found' });
+      return res.status(202).send({ article });
+    })
+    .catch(next);
+};
