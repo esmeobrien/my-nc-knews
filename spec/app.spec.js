@@ -1,15 +1,15 @@
 process.env.NODE_ENV = 'test';
-
 const app = require('../app');
 const connection = require('../db/connection');
-const { expect } = require('chai');
-const request = require('supertest')(app);
+const { expect } = require('chai'); // require in chai
+const request = require('supertest')(app); // require in supertest the call it with my app
+
 
 describe('/api', () => {
-  beforeEach(() => connection.migrate.rollback()
-    .then(() => connection.migrate.latest())
-    .then(() => connection.seed.run()));
-  after(() => connection.destroy());
+  beforeEach(() => connection.migrate.rollback() // mocha hook
+    .then(() => connection.migrate.latest()) // exectute latest script we have in our database
+    .then(() => connection.seed.run())); // runs the seed
+  after(() => connection.destroy()); // destory connection so we have new data every time we run it
   // test for get request
   it('GET - returns status 404 if the client enters an endpoint that does not exist', () => { // implimenting the error handling for /api
     request
@@ -19,6 +19,7 @@ describe('/api', () => {
         expect(res.body.msg).to.equal('page is not found'); // response message will be that the page is not found
       });
   });
+
 
   describe('/topics', () => {
     // test for get request
@@ -74,6 +75,7 @@ describe('/api', () => {
         expect(res.body.msg).to.equal('method is not allowed!');
       }));
   });
+
 
   describe('/:topic/articles', () => {
     it('GET status = 200 returns an array of articles for a given topic with correct keys', () => request
@@ -143,6 +145,7 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('Z');
       }));
+
     // error handling
     it('GET status = 400 if invalid syntax is used in the limit query', () => request
       .get('/api/topics/cats/articles?limit=memes')
@@ -169,6 +172,8 @@ describe('/api', () => {
         expect(res.body.msg).to.equal('method is not allowed!');
       }));
   });
+
+
   describe('/articles', () => {
     it('GET status = 200 responds with an array of article objects with the correct properties & keys', () => request
       .get('/api/articles')
@@ -228,6 +233,7 @@ describe('/api', () => {
       .expect(200).then((res) => {
         expect(res.body.articles[7].title).to.equal('Does Mitch predate civilisation?');
       }));
+
     // error handling
     it('GET status = 400 when invalid syntax is used in the limit query', () => request
       .get('/api/articles?limit=puppies')
@@ -242,9 +248,12 @@ describe('/api', () => {
         expect(res.body.msg).to.equal('invalid input syntax for type integer');
       }));
   });
+
+
   describe('/articles/:article_id', () => {
+    // Get Request
     it('GET status = 200 responds with an array of article objects with correct properties and keys', () => request
-      .get('/api/articles/3')
+      .get('/api/articles/1')
       .expect(200)
       .then((res) => {
         expect(res.body.articles).to.be.an('array');
@@ -258,6 +267,23 @@ describe('/api', () => {
           'comment_count',
           'created_at',
         );
+        expect(res.body.articles[0].topic).to.eql('mitch');
+        expect(res.body.articles[0].body).to.equal('I find this existence challenging');
       }));
+    // Error handling for get request
+    it('GET status: 404 if given non existant article id', () => request
+      .get('/api/articles/6788877')
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).to.equal('page is not found');
+      }));
+    it('GET status: 400 invalid syntax is used for article id', () => request
+      .get('/api/articles/grapes')
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).to.equal('invalid input syntax for type integer');
+      }));
+
+    // patch request
   });
 });

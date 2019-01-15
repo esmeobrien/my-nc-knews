@@ -12,6 +12,8 @@ articlesRouter
 
 articlesRouter
   .route('/:article_id')
-  .get(fetchArticleById);
+  .get(fetchArticleById)
+  .all(handle405);
+
 
 module.exports = articlesRouter;

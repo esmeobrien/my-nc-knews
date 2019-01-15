@@ -58,7 +58,7 @@ exports.fetchArticleById = (req, res, next) => {
     .where('articles.article_id', article_id)
     .groupBy('articles.article_id', 'users.username')
     .then((articles) => {
-      if (articles.length === 0) return Promise.reject({ status: 404, msg: 'error page not found' });
+      if (articles.length === 0) return Promise.reject({ status: 404, msg: 'page is not found' });
       return res.status(200).send({ articles });
     })
     .catch(next);

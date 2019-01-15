@@ -1,10 +1,16 @@
+exports.handle404 = (err, req, res, next) => {
+  if (err.status === 404) res.status(404).send({ msg: 'page is not found' });
+  else next(err);
+};
+
 exports.handle400 = (err, req, res, next) => {
   const errCodes = {
     42703: 'invalid input',
     23502: 'violates not null violation',
     23505: 'duplicate key value violates unique constraint',
-
+    '22P02': 'invalid input syntax for type integer',
   };
+
   if (err.status === 400) res.status(400).send({ msg: err.msg });
   else if (errCodes[err.code]) res.status(400).send({ msg: errCodes[err.code] });
   else next(err);
