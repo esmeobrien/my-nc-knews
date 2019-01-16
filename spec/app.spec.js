@@ -286,7 +286,7 @@ describe('/api', () => {
           'comment_count',
           'created_at',
         );
-        expect(res.body.articles[0].topic).to.eql('mitch');
+        expect(res.body.articles[0].topic).to.equal('mitch');
         expect(res.body.articles[0].body).to.equal('I find this existence challenging');
       }));
     // Error handling for get request
@@ -302,14 +302,21 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.msg).to.equal('invalid input syntax for type integer');
       }));
-    // Patch Request
-    it.only('PATCH status = 202, acccepts an object and vote is increased if integer is positve', () => request
+    // Patch Request for Articles
+    it('PATCH status = 202, accepts an object and vote is increased if integer is positve', () => request
       .patch('/api/articles/1')
       .send({ inc_votes: 20 })
       .expect(202)
       .then((res) => {
         expect(res.body.article.title).to.equal('Living in the shadow of a great man');
         expect(res.body.article.votes).to.equal(120);
+      }));
+    // Delete Request for Articles
+    it('DELETE status = 204, deletes the given article by `article_id`', () => request
+      .delete('/api/articles/1')
+      .expect(204)
+      .then((res) => {
+        expect(res.body).to.equal({});
       }));
   });
 });
