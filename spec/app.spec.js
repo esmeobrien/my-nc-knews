@@ -20,7 +20,6 @@ describe('/api', () => {
       });
   });
 
-
   describe('/topics', () => {
     // test for get request
     it('GET - returns status 200 and responds with an array of topic objects', () => request
@@ -213,6 +212,7 @@ describe('/api', () => {
       .expect(200).then((res) => {
         expect(res.body.articles).to.have.length(4);
       }));
+
     // Test for sort by created_at
     it('GET = status 200 articles sorted by default of column created_at', () => request
       .get('/api/articles')
@@ -220,6 +220,7 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('Living in the shadow of a great man');
       }));
+
     // Test for sort by for title
     it('GET = status 200 articles sorted by chosen column', () => request
       .get('/api/articles?sort_by=title')
@@ -227,12 +228,14 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('Z');
       }));
+
     // Test for sorting in ascending order
     it('GET = status 200 articles sorted by default column and user chosen order of sort', () => request
       .get('/api/articles?sort_ascending=true')
       .expect(200).then((res) => {
         expect(res.body.articles[0].title).to.equal('Moustache');
       }));
+
     // Test for sorting by title and in ascending order
     it('GET = status 200 articles sorted by chosen column and order of sort', () => request
       .get('/api/articles?sort_by=title&sort_ascending=true')
@@ -240,6 +243,7 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('A');
       }));
+
     // Test for selecting a given page
     it('GET = status 200 and articles on a given page', () => request
       .get('/api/articles?p=1')
@@ -289,6 +293,7 @@ describe('/api', () => {
         expect(res.body.articles[0].topic).to.equal('mitch');
         expect(res.body.articles[0].body).to.equal('I find this existence challenging');
       }));
+
     // Error handling for get request
     it('GET status: 404 if given non existant article id', () => request
       .get('/api/articles/6788877')
@@ -302,6 +307,7 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.msg).to.equal('invalid input syntax for type integer');
       }));
+
     // Patch Request for Articles
     it('PATCH status = 202, accepts an object and vote is increased if integer is positve', () => request
       .patch('/api/articles/1')
@@ -311,12 +317,30 @@ describe('/api', () => {
         expect(res.body.article.title).to.equal('Living in the shadow of a great man');
         expect(res.body.article.votes).to.equal(120);
       }));
+
     // Delete Request for Articles
     it('DELETE status = 204, deletes the given article by `article_id`', () => request
       .delete('/api/articles/1')
       .expect(204)
       .then((res) => {
         expect(res.body).to.eql({}); // should respond with an empty object
+      }));
+
+    // Error Handing
+
+    it('Status = 405 handles invalid requests', () => request
+      .put('/api/articles/1')
+      .send({ dogs: 'shiba' })
+      .expect(405)
+      .then((res) => {
+        expect(res.body.msg).to.equal('method is not allowed!');
+      }));
+    it('Status = 405 handles invalid requests', () => request
+      .post('/api/articles/1')
+      .send({ dogs: 'shiba' })
+      .expect(405)
+      .then((res) => {
+        expect(res.body.msg).to.equal('method is not allowed!');
       }));
   });
 });
