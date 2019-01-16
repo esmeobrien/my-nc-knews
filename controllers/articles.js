@@ -70,13 +70,13 @@ exports.updateArticleVotes = (req, res, next) => {
 // E.g `{ inc_votes : 1 }` would increment the current article's vote property by 1
 // `{ inc_votes : -100 }` would decrement the current article's vote property by 100
 
-  const { articles_id } = req.params;
-  const { incremented_votes } = req.body;
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
 
   connection('articles')
     .returning('*')
-    .increment('votes', incremented_votes)
-    .where('articles_id', '=', articles_id)
+    .increment('votes', inc_votes)
+    .where('article_id', '=', article_id)
     .then(([article]) => {
       if (article.length === 0) return Promise.reject({ status: 404, msg: 'page not found' });
       return res.status(202).send({ article });

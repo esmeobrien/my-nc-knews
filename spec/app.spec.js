@@ -302,5 +302,14 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.msg).to.equal('invalid input syntax for type integer');
       }));
+    // Patch Request
+    it.only('PATCH status = 202, acccepts an object and vote is increased if integer is positve', () => request
+      .patch('/api/articles/1')
+      .send({ inc_votes: 20 })
+      .expect(202)
+      .then((res) => {
+        expect(res.body.article.title).to.equal('Living in the shadow of a great man');
+        expect(res.body.article.votes).to.equal(120);
+      }));
   });
 });

@@ -18,6 +18,7 @@ module.exports = {
         "import/order": 0,
         "max-len":0,
         "no-restricted-globals":0,
+        "no-console":0
     }
 
 };
