@@ -68,7 +68,7 @@ describe('/api', () => {
     });
 
     // overall error handling- if not get or post request
-    it('status = 405 if input method chosen is not get or a post', () => request
+    it('status = 405 handles invalid requests', () => request
       .patch('/api/topics')
       .expect(405)
       .then((res) => {
@@ -146,7 +146,7 @@ describe('/api', () => {
         expect(res.body.articles[0].title).to.equal('Z');
       }));
 
-    // error handling
+    // Error Handling
     it('GET status = 400 if invalid syntax is used in the limit query', () => request
       .get('/api/topics/cats/articles?limit=memes')
       .expect(400)
@@ -165,8 +165,20 @@ describe('/api', () => {
       .then((res) => {
         expect(res.body.msg).to.equal('page is not found');
       }));
-    it('status = 405 if user tries to send a method that isnt get/post', () => request
+    it('status = 405 if user tries to send a method that isnt get/post eg delete', () => request
       .delete('/api/topics/mitch/articles')
+      .expect(405)
+      .then((res) => {
+        expect(res.body.msg).to.equal('method is not allowed!');
+      }));
+    it('status = 405 if user tries to send a method that isnt get/post eg patch', () => request
+      .patch('/api/topics/mitch/articles')
+      .expect(405)
+      .then((res) => {
+        expect(res.body.msg).to.equal('method is not allowed!');
+      }));
+    it('status = 405 if user tries to send a method that isnt get/post eg put', () => request
+      .put('/api/topics/mitch/articles')
       .expect(405)
       .then((res) => {
         expect(res.body.msg).to.equal('method is not allowed!');
@@ -194,34 +206,41 @@ describe('/api', () => {
         expect(res.body.articles[2].title).to.equal('Eight pug gifs that remind me of mitch');
         expect(res.body.articles).to.have.length(10);
       }));
+
+    // Test for Limit Query
     it('GET = status 200 has a length is equal to limit query set', () => request
       .get('/api/articles?limit=4')
       .expect(200).then((res) => {
         expect(res.body.articles).to.have.length(4);
       }));
+    // Test for sort by created_at
     it('GET = status 200 articles sorted by default of column created_at', () => request
       .get('/api/articles')
       .expect(200)
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('Living in the shadow of a great man');
       }));
+    // Test for sort by for title
     it('GET = status 200 articles sorted by chosen column', () => request
       .get('/api/articles?sort_by=title')
       .expect(200)
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('Z');
       }));
+    // Test for sorting in ascending order
     it('GET = status 200 articles sorted by default column and user chosen order of sort', () => request
       .get('/api/articles?sort_ascending=true')
       .expect(200).then((res) => {
         expect(res.body.articles[0].title).to.equal('Moustache');
       }));
+    // Test for sorting by title and in ascending order
     it('GET = status 200 articles sorted by chosen column and order of sort', () => request
       .get('/api/articles?sort_by=title&sort_ascending=true')
       .expect(200)
       .then((res) => {
         expect(res.body.articles[0].title).to.equal('A');
       }));
+    // Test for selecting a given page
     it('GET = status 200 and articles on a given page', () => request
       .get('/api/articles?p=1')
       .expect(200)
@@ -234,7 +253,7 @@ describe('/api', () => {
         expect(res.body.articles[7].title).to.equal('Does Mitch predate civilisation?');
       }));
 
-    // error handling
+    // Error Handling
     it('GET status = 400 when invalid syntax is used in the limit query', () => request
       .get('/api/articles?limit=puppies')
       .expect(400)

@@ -2,7 +2,7 @@ const articlesRouter = require('express').Router();
 const { handle405 } = require('../errors');
 
 const {
-  getAllArticles, fetchArticleById,
+  getAllArticles, fetchArticleById, updateArticleVotes,
 } = require('../controllers/articles');
 
 articlesRouter
@@ -13,7 +13,7 @@ articlesRouter
 articlesRouter
   .route('/:article_id')
   .get(fetchArticleById)
-  .all(handle405);
-
+  .patch(updateArticleVotes)
+  .all(handle405); // if it hits this due to being the incorrect request it will go to the handle 405 function in errors
 
 module.exports = articlesRouter;
