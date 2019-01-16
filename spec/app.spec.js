@@ -316,7 +316,7 @@ describe('/api', () => {
       .delete('/api/articles/1')
       .expect(204)
       .then((res) => {
-        expect(res.body).to.equal({});
+        expect(res.body).to.eql({}); // should respond with an empty object
       }));
   });
 });

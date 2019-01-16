@@ -83,3 +83,20 @@ exports.updateArticleVotes = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.deleteArticleById = (req, res, next) => {
+  // should delete the given article by `article_id`
+  // should respond with an empty object
+
+  const { article_id } = req.params;
+
+  connection('articles')
+    .returning('*')
+    .where('article_id', '=', article_id)
+    .del()
+    .then((article) => {
+      if (article.length === 0) return Promise.reject({ status: 404, msg: 'page not found' });
+      return res.status(204).send({});
+    })
+    .catch(next);
+};
