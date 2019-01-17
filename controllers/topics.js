@@ -1,3 +1,7 @@
+/*  eslint "max-len": 0,
+"no-restricted-globals": 0,
+*/
+
 const connection = require('../db/connection');
 
 exports.getTopics = (req, res, next) => {

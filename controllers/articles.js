@@ -100,3 +100,36 @@ exports.deleteArticleById = (req, res, next) => {
     })
     .catch(next);
 };
+
+/*
+exports.fetchCommentsByArticleID = (req, res, next) => {
+  const { article_id } = req.params;
+  const { limit: maxResult = 10, sort_ascending, p = 1 } = req.query;
+  let { sort_by } = req.query;
+  let order_by = 'desc';
+  if (sort_ascending === 'true') { order_by = 'asc'; }
+  const validSortQueries = ['title', 'author', 'article_id', 'created_at', 'topic', 'votes', 'comment_count'];
+  if (!validSortQueries.includes(sort_by)) sort_by = 'created_at';
+  if (isNaN(p)) return next({ status: 400, msg: 'invalid input syntax for type integer' });
+  if (isNaN(maxResult)) return next({ status: 400, msg: 'invalid input syntax for type integer' });
+
+  return connection('comments')
+    .select(
+      'comments.comment_id',
+      'comments.votes',
+      'comments.created_at',
+      'users.username AS author',
+      'comments.body',
+    )
+    .join('users', 'users.username', '=', 'comments.username')
+    .where('article_id', article_id)
+    .limit(maxResult)
+    .offset(maxResult * (p - 1))
+    .orderBy(sort_by, order_by)
+    .then((comments) => {
+      if (comments.length === 0) return Promise.reject({ status: 404, msg: 'page not found' });
+      return res.status(200).send({ comments });
+    })
+    .catch(next);
+};
+*/
