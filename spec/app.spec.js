@@ -436,56 +436,76 @@ describe('/api', () => {
         });
     });
 
-    // USER TESTS
+    // Tests for my patch request for comments
+    describe('/articles/:article_id/comments/:comment_id', () => {
+      it('PATCH status = 202 if a postive integer is given, takes an object and increases the comment votes ', () => request
+        .patch('/api/articles/1/comments/2')
+        .send({ inc_votes: 10 })
+        .expect(202)
+        .then((res) => {
+          expect(res.body.commentVotes[0].comment_id).to.equal(2);
+          expect(res.body.commentVotes[0].votes).to.equal(24);
+        }));
 
-    describe('/users', () => {
-      it('GET status = 200 responds with an array of user objects', () => request
-        .get('/api/users')
-        .expect(200)
+      // Tests for my delete request for comments
+      it('DELETE status 204 = removes given article by article id', () => request
+        .delete('/api/articles/1/comments/7')
+        .expect(204)
         .then((res) => {
-          expect(res.body.users).to.be.an('array');
-          expect(res.body.users[0]).to.have.all.keys(
-            'name',
-            'username',
-            'avatar_url',
-          );
-          expect(res.body.users).to.have.length(3);
-          expect(res.body.users[1].name).to.equal('sam');
-          expect(res.body.users[2].username).to.equal('rogersop');
-        }));
-      it('Status = 405 handles invalid requests', () => request
-        .put('/api/articles/1')
-        .send({ animals: 'llama' })
-        .expect(405)
-        .then((res) => {
-          expect(res.body.msg).to.equal('method is not allowed!');
-        }));
-      it('Status = 405 handles invalid requests', () => request
-        .post('/api/users')
-        .send({ dogs: 'pugs' })
-        .expect(405)
-        .then((res) => {
-          expect(res.body.msg).to.equal('method is not allowed!');
+          expect(res.body).to.eql({});
         }));
     });
-    // USER/:USERNAME TEST
+  });
 
-    describe('/users/:username', () => {
-      it('GET status = 200 responds with an array of user objects', () => request
-        .get('/api/users/rogersop')
-        .expect(200)
-        .then((res) => {
-          expect(res.body.user).to.have.all.keys(
-            'username',
-            'avatar_url',
-            'name',
-          );
-          expect(res.body.user).to.eql({
-            username: 'rogersop',
-            avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
-            name: 'paul',
-          });
-        }));
-    });
+  // USER TESTS
+
+  describe('/users', () => {
+    it('GET status = 200 responds with an array of user objects', () => request
+      .get('/api/users')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.users).to.be.an('array');
+        expect(res.body.users[0]).to.have.all.keys(
+          'name',
+          'username',
+          'avatar_url',
+        );
+        expect(res.body.users).to.have.length(3);
+        expect(res.body.users[1].name).to.equal('sam');
+        expect(res.body.users[2].username).to.equal('rogersop');
+      }));
+    it('Status = 405 handles invalid requests', () => request
+      .put('/api/articles/1')
+      .send({ animals: 'llama' })
+      .expect(405)
+      .then((res) => {
+        expect(res.body.msg).to.equal('method is not allowed!');
+      }));
+    it('Status = 405 handles invalid requests', () => request
+      .post('/api/users')
+      .send({ dogs: 'pugs' })
+      .expect(405)
+      .then((res) => {
+        expect(res.body.msg).to.equal('method is not allowed!');
+      }));
+  });
+  // USER/:USERNAME TEST
+
+  describe('/users/:username', () => {
+    it('GET status = 200 responds with an array of user objects', () => request
+      .get('/api/users/rogersop')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.user).to.have.all.keys(
+          'username',
+          'avatar_url',
+          'name',
+        );
+        expect(res.body.user).to.eql({
+          username: 'rogersop',
+          avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+          name: 'paul',
+        });
+      }));
   });
 });

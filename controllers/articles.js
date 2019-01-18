@@ -146,3 +146,32 @@ exports.addComment = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.deleteComment = (req, res, next) => {
+  const { comment_id } = req.params;
+  const { article_id } = req.params;
+
+  return connection('comments')
+    .where('comment_id', comment_id)
+    .where('article_id', article_id)
+    .del()
+    .then((comment) => {
+      if (comment === 0) return Promise.reject({ status: 404, msg: 'page not found' });
+      return res.status(204).send({});
+    })
+    .catch(next);
+};
+
+exports.updateVotes = (req, res, next) => {
+  const { inc_votes } = req.body;
+  const { comment_id } = req.params;
+
+  connection('comments').where('comment_id', '=', comment_id)
+    .increment('votes', inc_votes)
+    .returning('*')
+    .then((commentVotes) => {
+      if (commentVotes.length === 0) return next({ status: 404, msg: 'page not found' });
+      return res.status(202).send({ commentVotes });
+    })
+    .catch(next);
+};
