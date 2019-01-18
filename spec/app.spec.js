@@ -344,7 +344,7 @@ describe('/api', () => {
       }));
   });
   // Tests for comments
-  /*
+
   describe('/articles/:article_id/comments', () => {
     it('GET status = 200 responds with an array of comment objects', () => request
       .get('/api/articles/1/comments')
@@ -362,52 +362,53 @@ describe('/api', () => {
         expect(res.body.comments[0].body).to.equal('The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.');
         expect(res.body.comments[0].author).to.equal('butter_bridge');
       }));
-*/
-  describe('/users', () => {
-    it('GET status = 200 responds with an array of user objects', () => request
-      .get('/api/users')
-      .expect(200)
-      .then((res) => {
-        expect(res.body.users).to.be.an('array');
-        expect(res.body.users[0]).to.have.all.keys(
-          'name',
-          'username',
-          'avatar_url',
-        );
-        expect(res.body.users).to.have.length(3);
-        expect(res.body.users[1].name).to.equal('sam');
-        expect(res.body.users[2].username).to.equal('rogersop');
-      }));
-    it('Status = 405 handles invalid requests', () => request
-      .put('/api/articles/1')
-      .send({ animals: 'llama' })
-      .expect(405)
-      .then((res) => {
-        expect(res.body.msg).to.equal('method is not allowed!');
-      }));
-    it('Status = 405 handles invalid requests', () => request
-      .post('/api/users')
-      .send({ dogs: 'pugs' })
-      .expect(405)
-      .then((res) => {
-        expect(res.body.msg).to.equal('method is not allowed!');
-      }));
-  });
-  describe('/users/:username', () => {
-    it('GET status = 200 responds with an array of user objects', () => request
-      .get('/api/users/rogersop')
-      .expect(200)
-      .then((res) => {
-        expect(res.body.user).to.have.all.keys(
-          'username',
-          'avatar_url',
-          'name',
-        );
-        expect(res.body.user).to.eql({
-          username: 'rogersop',
-          avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
-          name: 'paul',
-        });
-      }));
+
+    describe('/users', () => {
+      it('GET status = 200 responds with an array of user objects', () => request
+        .get('/api/users')
+        .expect(200)
+        .then((res) => {
+          expect(res.body.users).to.be.an('array');
+          expect(res.body.users[0]).to.have.all.keys(
+            'name',
+            'username',
+            'avatar_url',
+          );
+          expect(res.body.users).to.have.length(3);
+          expect(res.body.users[1].name).to.equal('sam');
+          expect(res.body.users[2].username).to.equal('rogersop');
+        }));
+      it('Status = 405 handles invalid requests', () => request
+        .put('/api/articles/1')
+        .send({ animals: 'llama' })
+        .expect(405)
+        .then((res) => {
+          expect(res.body.msg).to.equal('method is not allowed!');
+        }));
+      it('Status = 405 handles invalid requests', () => request
+        .post('/api/users')
+        .send({ dogs: 'pugs' })
+        .expect(405)
+        .then((res) => {
+          expect(res.body.msg).to.equal('method is not allowed!');
+        }));
+    });
+    describe('/users/:username', () => {
+      it('GET status = 200 responds with an array of user objects', () => request
+        .get('/api/users/rogersop')
+        .expect(200)
+        .then((res) => {
+          expect(res.body.user).to.have.all.keys(
+            'username',
+            'avatar_url',
+            'name',
+          );
+          expect(res.body.user).to.eql({
+            username: 'rogersop',
+            avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+            name: 'paul',
+          });
+        }));
+    });
   });
 });

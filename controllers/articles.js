@@ -101,7 +101,7 @@ exports.deleteArticleById = (req, res, next) => {
     .catch(next);
 };
 
-/*
+
 exports.fetchCommentsByArticleID = (req, res, next) => {
   const { article_id } = req.params;
   const { limit: maxResult = 10, sort_ascending, p = 1 } = req.query;
@@ -127,9 +127,9 @@ exports.fetchCommentsByArticleID = (req, res, next) => {
     .offset(maxResult * (p - 1))
     .orderBy(sort_by, order_by)
     .then((comments) => {
+      console.log(comments);
       if (comments.length === 0) return Promise.reject({ status: 404, msg: 'page not found' });
       return res.status(200).send({ comments });
     })
     .catch(next);
 };
-*/

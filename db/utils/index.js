@@ -1,11 +1,11 @@
-const { articleData, commentData } = require('../data/index'); // need to require in the premade data from the data folder
+// need to require in the premade data from the data folder
 
 function convertTime(UNIX_timestamp) {
   // we need to make a function for our timestamp
   return new Date(UNIX_timestamp); // use the new date method and call it to the UNIX_timestamp argument
 }
 
-exports.makeArticle = function () {
+exports.makeArticle = function (articleData) {
   // need a make article function for our seed
   return articleData.map(
     // we use .map on each part of our article data
@@ -18,7 +18,7 @@ exports.makeArticle = function () {
   );
 };
 
-exports.makeComments = function () {
+exports.makeComments = function (commentData, articleInfo) {
   // we need a make comments function
   return commentData.map(
     // we use .map on each comment passed through the premade data
@@ -26,7 +26,7 @@ exports.makeComments = function () {
       belongs_to, created_by, created_at, ...restOfComments
     }) => {
       // we want to pass through these 3 values along with the rest of the data that we have in the premade data
-      const articleFiltered = articleData.filter(
+      const articleFiltered = articleInfo.filter(
         // make a variable for our filtered articles so that we can return it below
         article => article.title === belongs_to, // then we have each article and we want to filter through the title from the article
       );
