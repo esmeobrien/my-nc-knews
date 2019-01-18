@@ -2,7 +2,7 @@ const articlesRouter = require('express').Router();
 const { handle405 } = require('../errors');
 
 const {
-  getAllArticles, fetchArticleById, updateArticleVotes, deleteArticleById, fetchCommentsByArticleID,
+  getAllArticles, fetchArticleById, updateArticleVotes, deleteArticleById, fetchCommentsByArticleID, addComment,
 } = require('../controllers/articles');
 
 
@@ -20,7 +20,8 @@ articlesRouter
 
 articlesRouter
   .route('/:article_id/comments')
-  .get(fetchCommentsByArticleID);
+  .get(fetchCommentsByArticleID)
+  .post(addComment);
 
 
 module.exports = articlesRouter;

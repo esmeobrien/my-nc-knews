@@ -133,3 +133,16 @@ exports.fetchCommentsByArticleID = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.addComment = (req, res, next) => {
+  const newComment = { ...req.params, ...req.body };
+
+  connection
+    .returning('*')
+    .insert(newComment)
+    .into('comments')
+    .then(([comment]) => {
+      res.status(201).send({ comment });
+    })
+    .catch(next);
+};

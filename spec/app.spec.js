@@ -420,6 +420,21 @@ describe('/api', () => {
         expect(res.body.comments[3].comment_id).to.equal(5);
       }));
 
+    // Tests for Post Requests for comments
+    it('POST status = 201 returns posted comment as an object', () => {
+      const newPost = {
+        body: 'lalala',
+        username: 'butter_bridge',
+      };
+      return request
+        .post('/api/articles/7/comments')
+        .expect(201)
+        .send(newPost)
+        .then((res) => {
+          expect(res.body.comment.username).to.eql('butter_bridge');
+          expect(res.body.comment.body).to.eql('lalala');
+        });
+    });
 
     // USER TESTS
 
