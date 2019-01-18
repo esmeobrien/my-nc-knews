@@ -369,6 +369,58 @@ describe('/api', () => {
         expect(res.body.comments).to.have.length(5);
       }));
 
+    // error handling for limit query
+    it('GET status = 400 when invlaid syntax is used in the limit query', () => request
+      .get('/api/articles/1/comments?limit=dogs')
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).to.equal('invalid input syntax for type integer');
+      }));
+
+    // page query test
+    it('GET status = 200 returns articles on page selected', () => request
+      .get('/api/articles/1/comments?p=2')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments[0].comment_id).to.equal(12);
+      }));
+
+    // error handling for page query
+    it('GET status = 400 when invalid syntax is used in page query', () => request
+      .get('/api/articles/1/comments?p=watermelon')
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).to.equal('invalid input syntax for type integer');
+      }));
+
+    // sort by tests
+    it('GET status = 200 articles sorted by whichever column chosen', () => request
+      .get('/api/articles/1/comments?sort_by=comment_id')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments[0].comment_id).to.equal(2);
+        expect(res.body.comments[3].comment_id).to.equal(5);
+      }));
+
+    // sort by test for chosen column and also order of sort
+    it('GET status = 200 articles are sorted by order of sort and chosen column', () => request
+      .get('/api/articles/1/comments?sort_ascending=true')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments[3].comment_id).to.equal(11);
+        expect(res.body.comments[1].comment_id).to.equal(13);
+      }));
+
+    // sort by test for invalid inputs
+    it('GET status = 200 if invalid sort is given, articles are sorted by default of created_at column', () => request
+      .get('/api/articles/1/comments?sort_by=mango')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments[0].comment_id).to.equal(2);
+        expect(res.body.comments[3].comment_id).to.equal(5);
+      }));
+
+
     // USER TESTS
 
     describe('/users', () => {
