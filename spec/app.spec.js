@@ -320,11 +320,12 @@ describe('/api', () => {
 
     // Delete Request for Articles
     it('DELETE status = 204, deletes the given article by `article_id`', () => request
-      .delete('/api/articles/1')
+      .delete('/api/articles/5')
       .expect(204)
       .then((res) => {
         expect(res.body).to.eql({}); // should respond with an empty object
-      }));
+      })
+      .then(() => request.get('/api/articles/5').expect(404)));
 
     // Error Handing
 

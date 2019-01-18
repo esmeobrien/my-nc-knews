@@ -92,13 +92,13 @@ exports.deleteArticleById = (req, res, next) => {
 
   connection('articles')
     .returning('*')
-    .where('article_id', '=', article_id)
+    .where('articles.article_id', '=', `${article_id}`)
     .del()
     .then((article) => {
       if (article.length === 0) return Promise.reject({ status: 404, msg: 'page not found' });
       return res.status(204).send({});
     })
-    .catch(next);
+    .catch(err => console.log(err) || next(err));
 };
 
 

@@ -1,5 +1,9 @@
 exports.handle404 = (err, req, res, next) => {
+  const codes = {
+    23503: 'duplicate key value violates unique constraint',
+  };
   if (err.status === 404) res.status(404).send({ msg: 'page is not found' });
+  else if (codes[err.code]) res.status(400).send({ msg: codes[err.code] });
   else next(err);
 };
 
