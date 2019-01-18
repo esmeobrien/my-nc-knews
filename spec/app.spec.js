@@ -363,6 +363,13 @@ describe('/api', () => {
         expect(res.body.comments[0].body).to.equal('The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.');
         expect(res.body.comments[0].author).to.equal('butter_bridge');
       }));
+    it('GET status = 200, length of comments is equal to the limit amount selected', () => request
+      .get('/api/articles/1/comments?limit=5')
+      .expect(200).then((res) => {
+        expect(res.body.comments).to.have.length(5);
+      }));
+
+    // USER TESTS
 
     describe('/users', () => {
       it('GET status = 200 responds with an array of user objects', () => request
@@ -394,6 +401,8 @@ describe('/api', () => {
           expect(res.body.msg).to.equal('method is not allowed!');
         }));
     });
+    // USER/:USERNAME TEST
+
     describe('/users/:username', () => {
       it('GET status = 200 responds with an array of user objects', () => request
         .get('/api/users/rogersop')
