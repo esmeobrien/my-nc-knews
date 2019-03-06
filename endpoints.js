@@ -12,4 +12,4 @@ const endpoints = {
 };
 
 
-export default endpoints;
+module.exports = { endpoints };
