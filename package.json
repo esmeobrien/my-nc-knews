@@ -16,7 +16,8 @@
     "migrate:rollback": "knex migrate:rollback --env test",
     "create:seed": "knex seed:make",
     "seed:run": "npm run migrate:rollback && npm run migrate:latest && NODE_ENV=test knex seed:run --env test",
-    "dev": "nodemon listen.js"
+    "dev": "nodemon listen.js",
+    "start" : "node listen.js"
   },
   "repository": {
     "type": "git",
